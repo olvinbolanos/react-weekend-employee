@@ -11,11 +11,18 @@
             <% for(let i = 0; i < fruits.length; i++){ %>
               <li>
                    The <a href="/fruits/<%=i%>"><%=fruits[i].name; %></a> is  <%=fruits[i].color; %>.
+
                     <% if(fruits[i].readyToEat === true){ %>
                       It is ready to eat
                     <% } else { %>
                       It is not ready to eat
                     <% } %>
+
+
+
+                    <form method="POST" action="/fruits/<%=i%>?_method=DELETE">
+                      <input type="submit" value="DELETE">
+                    </form>
                </li>
             <% } %>
         </ul>

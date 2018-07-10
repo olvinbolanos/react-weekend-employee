@@ -1,6 +1,7 @@
-const express = require('express');
-const app     = express();
-const bodyParser = require('body-parser');
+const express        = require('express');
+const app            = express();
+const bodyParser     = require('body-parser');
+const methodOverride = require('method-override');
 // require Our Model - Remember Model is
 // a representation of our data
 // The model should capitalized
@@ -11,7 +12,7 @@ const Fruits = require('./models/fruits');
 // contents of a form, or the body of a request
 // the app.use sets up what middleware you are using
 app.use(bodyParser.urlencoded({extended: false}))
-
+app.use(methodOverride('_method'));
 
 
 // Creating the index route
@@ -64,6 +65,12 @@ app.get('/fruits/:index', (req, res) => {
   })
 });
 
+// Delete route
+app.delete('/fruits/:index', (req, res) => {
+  Fruits.splice(req.params.index, 1);
+  console.log(req.params.index, ' this is req.params')
+  res.redirect('/fruits')
+})
 
 
 
