@@ -3,6 +3,8 @@ const app            = express();
 const bodyParser     = require('body-parser');
 const methodOverride = require('method-override');
 
+// require our db
+require('./db/db');
 
 // initialized some middleware
 // bodyParser allows us to read the

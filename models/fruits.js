@@ -1,20 +1,13 @@
-const fruits = [
-    {
-        name:'apple',
-        color: 'red',
-        readyToEat: true
-    },
-    {
-        name:'pear',
-        color: 'green',
-        readyToEat: false
-    },
-    {
-        name:'banana',
-        color: 'yellow',
-        readyToEat: true
-    }
-];
+const mongoose = require('mongoose');
+
+
+const fruitSchema = new mongoose.Schema({
+  name: String,
+  color: String,
+  readyToEat: Boolean
+});
+
+
 // Exporting the whole fruits array
 // and it will be named whatever we require as
-module.exports = fruits;
+module.exports = mongoose.model('Fruit', fruitSchema);

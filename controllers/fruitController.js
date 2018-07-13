@@ -8,9 +8,23 @@ const Fruits = require('../models/fruits');
 // Creating the index route
 // index route should show all the fruits
 router.get('/', (req, res) => {
-  res.render('index.ejs', {
-    fruits: Fruits
+  // finding every fruit without a search parameter
+  Fruits.find({}, (err, allFruits) => {
+    if(err){
+      res.send(err);
+    } else {
+
+      // allFruits is the response from are db
+      // when you are finding all of something it
+      // returns an array
+        res.render('index.ejs', {
+          fruits: allFruits
+        });
+    };
   });
+
+
+
 });
 
 // This is the route that the form is sending
@@ -26,14 +40,19 @@ router.post('/', (req, res) => {
     req.body.readyToEat = false;
   }
   // adding the contents of the form to the model
-  Fruits.push(req.body);
-  // Now we can add the info from the form to our model
-  // update our model
-
-  // redirects the response back
-  // to the get /fruits route
-  res.redirect('/fruits');
-  // res.send('it was completed')
+  Fruits.create(req.body, (err, createdFruit)=> {
+    if(err){
+      console.log(err)
+      res.send(err);
+    } else {
+      console.log(createdFruit)
+      // we want to respond to the client after
+      // we get the response from the database
+      // redirects the response back
+      // to the get /fruits route
+      res.redirect('/fruits');
+    }
+  });
 });
 
 
@@ -45,13 +64,13 @@ router.get('/new', (req, res) => {
 });
 
 // Edit Route = to display a single fruit
-router.get('/:index/edit', (req, res) => {
+router.get('/:id/edit', (req, res) => {
 
-  res.render('edit.ejs', {
-    fruit: Fruits[req.params.index],
-    index: req.params.index
-  });
-
+  Fruits.findById(req.params.id, (err, foundFruit) => {
+      res.render('edit.ejs', {
+        fruit: foundFruit
+      });
+    });
 });
 
 
@@ -66,7 +85,7 @@ router.get('/:index', (req, res) => {
   });
 });
 
-router.put('/:index', (req, res) => {
+router.put('/:id', (req, res) => {
   console.log(' am I hitting the put route') // Check to see if im hitting im route
   // If Im not hitting the route, there is probably something with the action of form
 
@@ -79,13 +98,21 @@ router.put('/:index', (req, res) => {
     req.body.readyToEat = false;
   }
   // req.body is the updated form info
+  //new true, says return to me the updated object, by default it is false
+  // things that are default you don't have to specify
 
+  // first argument, is the document you are looking for
+  // second argument, is the content you are updating with
+  Fruits.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updatedFruit) => {
+    if(err){
+      res.send(err);
+    } else {
+        // Check to see if it is updating correctly
+        console.log(updatedFruit, ' CHeck our model')
+        res.redirect('/fruits');
+    }
+  })
 
-  // Maybe its agood idea to check every part of this code
-  Fruits[req.params.index] = req.body;
-  // Check to see if it is updating correctly
-  console.log(Fruits, ' CHeck our model')
-  res.redirect('/fruits');
 });
 
 
