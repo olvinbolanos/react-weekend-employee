@@ -75,14 +75,17 @@ router.get('/:id/edit', (req, res) => {
 
 
 // Show Route
-router.get('/:index', (req, res) => {
+router.get('/:id', (req, res) => {
 
   // Render is when you want to send
   // an ejs template to the client
-  res.render('show.ejs', {
-    fruit: Fruits[req.params.index] // This creates
-    // a "fruit" variable in the show page
-  });
+  Fruits.findById(req.params.id, (err, foundFruit) => {
+      res.render('show.ejs', {
+      fruit: foundFruit// This creates
+      // a "fruit" variable in the show page
+    });
+  })
+
 });
 
 router.put('/:id', (req, res) => {
@@ -117,10 +120,22 @@ router.put('/:id', (req, res) => {
 
 
 // Delete route
-router.delete('/:index', (req, res) => {
-  Fruits.splice(req.params.index, 1);
-  console.log(req.params.index, ' this is req.params')
-  res.redirect('/fruits');
+router.delete('/:id', (req, res) => {
+
+  // Delete a specific fruit
+  console.log(req.params.id, ' this is params in delete')
+  Fruits.findByIdAndRemove(req.params.id, (err, deletedFruit) => {
+    if(err){
+      console.log(err, ' this is error in delete')
+      res.send(err);
+    } else {
+      console.log(deletedFruit, ' this deletedfruit in the delete rout');
+      res.redirect('/fruits');
+    }
+  });
+
+
+
 })
 
 
