@@ -25,11 +25,9 @@ const Movie = require('../models/movie');
     }
 });
 
-// This is the route that the form is sending
-// its info too
-// aka the create route
+
 router.post('/', async (req, res) => {
-  // contents of the form will be in req.body
+
   try {
     console.log(req.body, ' this is req.body');
     const createdMovie = await Movie.create(req.body);
@@ -48,8 +46,8 @@ router.post('/', async (req, res) => {
 
 
 
-// Show Route
-router.get('/', async (req, res, next) => {
+
+router.get('/:id', async (req, res, next) => {
 
 
      try  {
