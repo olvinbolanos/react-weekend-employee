@@ -1,29 +1,25 @@
 const express        = require('express');
 const app            = express();
 const bodyParser     = require('body-parser');
-const methodOverride = require('method-override');
+const cors           = require('cors');
 
-// require our db
+
 require('./db/db');
 
-// initialized some middleware
-// bodyParser allows us to read the
-// contents of a form, or the body of a request
-// the app.use sets up what middleware you are using
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(methodOverride('_method'));
+
+// SET UP CORS AS MIDDLEWARE, SO any client can make a request to our server
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(cors());
+
 
 // Require the controller after the middleware
-const fruitController = require('./controllers/fruitController');
-
-// This means every route in the fruitController
-// now starts with /fruits
-app.use('/fruits', fruitController);
+const movieController = require('./controllers/movieController');
 
 
+app.use('/api/v1/movies', movieController);
 
 
-
-app.listen(3000, () => {
-  console.log('listening on port 3000');
+app.listen(9000, () => {
+  console.log('listening on port 9000');
 });
