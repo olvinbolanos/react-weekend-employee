@@ -8,7 +8,7 @@ const Movie = require('../models/movie');
 // Creating the index route
 // index route should show all the fruits
  router.get('/', async (req, res, next) => {
-
+  console.log(req.session, ' this is get all')
      try  {
 
       const allMovies = await Movie.find();
