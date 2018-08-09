@@ -4,14 +4,14 @@ const router = express.Router();
 // require Our Model - Remember Model is
 // a representation of our data
 // The model should capitalized
-const Movie = require('../models/movie');
+// const Movie = require('../models/movie');
 // Creating the index route
 // index route should show all the fruits
  router.get('/', async (req, res, next) => {
-  console.log(req.session, ' this is get all')
+  console.log(req.body, ' this is get all')
      try  {
 
-      const allMovies = await Movie.find();
+      // const allMovies = await Movie.find();
 
       res.json({
         status: 200,

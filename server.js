@@ -4,7 +4,7 @@ const bodyParser     = require('body-parser');
 const cors           = require('cors');
 const session        = require('express-session')
 
-require('./db/db');
+// require('./db/db');
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
