@@ -9,11 +9,13 @@ const Movie = require('../models/movie');
 // Creating the index route
 // index route should show all the fruits
  router.get('/', async (req, res, next) => {
+  // req.body this is from the fetch request
   console.log(req.body, ' this is get all')
      try  {
 
       const allMovies = await Movie.find();
 
+      // This is the response to react
       res.json({
         status: 200,
         data: allMovies
