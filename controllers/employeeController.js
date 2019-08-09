@@ -12,7 +12,7 @@ const Employee = require('../models/employee');
   // req.body this is from the fetch request
   console.log(req.body, ' this is get all')
      try  {
-      const allEmployees = await Employee.finnd();
+      const allEmployees = await Employee.find();
       console.log(req.session, ' this is req.session')
       // This is the response to react
       res.json({
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     console.log(req.body, ' this is req.body');
     console.log(req.session, ' req.session in post route')
     const createdEmployee = await Employee.create(req.body);
-    console.log('response happening?')
+    
     res.json({
       status: {
         code: 201,
