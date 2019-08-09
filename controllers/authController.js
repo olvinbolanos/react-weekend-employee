@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
-const User    = require('../models/users');
-const bcrypt  = require('bcrypt');
+const User    = require('../models/user');
+const bcrypt  = require('bcryptjs');
 
 router.post('/login', async (req, res) => {
 
@@ -22,20 +22,35 @@ router.post('/login', async (req, res) => {
       req.session.username = foundUser.username;
       req.session.logged = true;
 
-      res.redirect('/authors')
+      res.json({
+        status:  {
+            code: 200,
+            message: "User Logged In"
+          }
+      })
 
     } else {
       // send message back to client that
       // the username or password is incorrect
-      req.session.message = 'Username or Password incorrect';
-      res.redirect('/');
+
+      res.json({
+        status:  {
+            code: 200,
+            message: 'Username or Password incorrect'
+          }
+      })
     }
 
   } else {
     // send message back to client that
     // thier username or password is incorrect
-    req.session.message = 'Username or Password incorrect';
-    res.redirect('/');
+
+    res.json({
+        status:  {
+            code: 200,
+            message: 'Username or Password incorrect'
+          }
+      })
 
   }
 
@@ -70,7 +85,13 @@ router.post('/register', async (req, res) => {
       req.session.username = createdUser.username;
       req.session.logged = true;
 
-      res.redirect('/authors');
+      res.json({
+        status:  {
+            code: 200,
+            message: "User Logged In"
+          }
+      })
+
   } catch (err){
     res.send(err)
   }
@@ -84,7 +105,12 @@ router.get('/logout', (req, res) => {
     if(err){
       res.send(err);
     } else {
-      res.redirect('/');// back to the homepage
+      res.json({
+        status:  {
+            code: 200,
+            message: "User Logged Out"
+          }
+      })// back to the homepage
     }
   })
 
