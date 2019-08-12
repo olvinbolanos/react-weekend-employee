@@ -77,6 +77,7 @@ router.post('/register', async (req, res) => {
 
   // We create our use
   try {
+      req.body.admin = true
       const createdUser = await User.create(req.body);
       console.log(createdUser, ' created user');
 
@@ -114,6 +115,26 @@ router.get('/logout', (req, res) => {
     }
   })
 
+})
+
+
+
+router.get('/', async (req, res, next) => {
+  console.log(req.body, 'this is get all users')
+  try {
+    const allUsers = await User.find();
+
+    res.json({
+      status: {
+        code: 200,
+        message: 'Success'
+      },
+      data: allUsers
+    });
+  } catch (err) {
+    console.log(err, ' getUser error')
+    return err
+  }
 })
 
 
